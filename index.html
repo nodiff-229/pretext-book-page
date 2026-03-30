@@ -905,7 +905,17 @@ window.<span class="code-func">addEventListener</span>(<span class="code-string"
     </footer>
 
     <script type="module">
-        import { prepare, layout } from 'https://cdn.jsdelivr.net/npm/@chenglou/pretext@0.0.3/+esm';
+        // 错误处理
+        window.addEventListener('error', (e) => {
+            console.error('Pretext load error:', e);
+            document.getElementById('layout-output').innerHTML = `
+                <div style="color: #ff6b6b; text-align: center; padding: 40px;">
+                    <p>⚠️ 文本引擎加载失败，请刷新页面重试</p>
+                </div>
+            `;
+        });
+
+        import { prepare, layout } from 'https://cdn.jsdelivr.net/npm/@chenglou/pretext@latest/+esm';
 
         // 示例文本 - 李白《春夜宴桃李园序》
         const sampleText = `夫天地者，万物之逆旅也；光阴者，百代之过客也。而浮生若梦，为欢几何？古人秉烛夜游，良有以也。况阳春召我以烟景，大块假我以文章。会桃李之芳园，序天伦之乐事。群季俊秀，皆为惠连；吾人咏歌，独惭康乐。`;
