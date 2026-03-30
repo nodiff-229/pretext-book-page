@@ -1,0 +1,27 @@
+{
+  "name": "pretext-book-page",
+  "version": "1.0.0",
+  "description": "精美的书页网页应用 - 使用 Pretext 文本布局引擎",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "npm run build && npx gh-pages -d ."
+  },
+  "keywords": [
+    "pretext",
+    "book",
+    "reading",
+    "chinese"
+  ],
+  "author": "nodiff",
+  "license": "MIT",
+  "dependencies": {
+    "@chenglou/pretext": "^0.0.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "serve": "^14.2.0"
+  }
+}

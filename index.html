@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书页阅读 - Pretext 演示</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="book-container">
+        <!-- 页眉 -->
+        <header class="page-header">
+            <div class="header-left">春夜宴桃李园序</div>
+            <div class="header-center">📖</div>
+            <div class="header-right">唐·李白</div>
+        </header>
+
+        <!-- 书页内容 -->
+        <main class="page-content">
+            <article id="book-text" class="text-content">
+                <h1 class="book-title">春夜宴桃李园序</h1>
+                <div class="author">唐代 · 李白</div>
+                
+                <div class="content-paragraphs">
+                    <p class="paragraph">夫天地者，万物之逆旅也；光阴者，百代之过客也。而浮生若梦，为欢几何？古人秉烛夜游，良有以也。</p>
+                    
+                    <p class="paragraph">况阳春召我以烟景，大块假我以文章。会桃李之芳园，序天伦之乐事。群季俊秀，皆为惠连；吾人咏歌，独惭康乐。</p>
+                    
+                    <p class="paragraph">幽赏未已，高谈转清。开琼筵以坐花，飞羽觞而醉月。不有佳咏，何伸雅怀？如诗不成，罚依金谷酒数。</p>
+                </div>
+
+                <div class="content-paragraphs">
+                    <h2 class="section-title">译文</h2>
+                    <p class="paragraph">天地是万物的客舍，时间是古往今来的过客。死生之差异，就好像梦与醒之不同，纷纭变化，不可究诘，得到欢乐又能有多少时候呢？古人手持红烛在夜间游赏，确实是很有道理的啊。</p>
+                    
+                    <p class="paragraph">况且温暖的春天用如烟似雾的美景召唤我，大自然把锦绣河山提供给我吟咏。我们相聚在桃李芬芳的花园里，畅叙兄弟间的快乐往事。各位弟弟才华出众，都是谢惠连那样的才子；而我吟诗作歌，却唯独愧对谢康乐。</p>
+                    
+                    <p class="paragraph">静静地欣赏美景还没有结束，高谈阔论又转入清雅的玄理。摆出华美的筵席坐在花丛中，酒杯频传醉于月光下。没有美妙的诗篇，怎能抒发高雅的情怀？如果作诗不成，就依照金谷园的旧例罚酒三杯。</p>
+                </div>
+            </article>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="page-footer">
+            <div class="footer-left">— 第 <span id="page-number">1</span> 页 —</div>
+            <div class="footer-center">🌙</div>
+            <div class="footer-right">Pretext 排版引擎</div>
+        </footer>
+
+        <!-- 翻页控制 -->
+        <div class="page-controls">
+            <button id="prev-btn" class="control-btn" disabled>◀ 上一页</button>
+            <button id="next-btn" class="control-btn">下一页 ▶</button>
+        </div>
+    </div>
+
+    <!-- 装饰元素 -->
+    <div class="decoration corner-top-left"></div>
+    <div class="decoration corner-top-right"></div>
+    <div class="decoration corner-bottom-left"></div>
+    <div class="decoration corner-bottom-right"></div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

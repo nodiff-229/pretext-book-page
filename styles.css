@@ -1,0 +1,269 @@
+/* 基础重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --paper-color: #fdf6e3;
+    --paper-texture: #f5e6c8;
+    --ink-color: #2c2c2c;
+    --accent-color: #8b4513;
+    --border-color: #d4c4a8;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 书本容器 */
+.book-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    background: var(--paper-color);
+    box-shadow: 
+        0 10px 40px var(--shadow-color),
+        inset 0 0 60px rgba(139, 69, 19, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* 书页纹理效果 */
+.book-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(139, 69, 19, 0.03) 2px,
+            rgba(139, 69, 19, 0.03) 4px
+        );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 页眉 */
+.page-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 2px solid var(--border-color);
+    background: linear-gradient(to bottom, var(--paper-color), var(--paper-texture));
+    z-index: 2;
+}
+
+.header-left,
+.header-right {
+    font-size: 14px;
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+.header-center {
+    font-size: 24px;
+}
+
+/* 页面内容 */
+.page-content {
+    position: relative;
+    padding: 40px 60px;
+    min-height: 500px;
+    z-index: 2;
+}
+
+/* 书籍标题 */
+.book-title {
+    font-size: 32px;
+    text-align: center;
+    color: var(--ink-color);
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 8px;
+}
+
+.author {
+    text-align: center;
+    font-size: 16px;
+    color: var(--accent-color);
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+/* 段落样式 */
+.content-paragraphs {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 18px;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 4px;
+}
+
+.paragraph {
+    font-size: 18px;
+    line-height: 2;
+    color: var(--ink-color);
+    text-align: justify;
+    text-indent: 2em;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* 页脚 */
+.page-footer {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-top: 2px solid var(--border-color);
+    background: linear-gradient(to top, var(--paper-color), var(--paper-texture));
+    font-size: 12px;
+    color: var(--accent-color);
+    z-index: 2;
+}
+
+.footer-center {
+    font-size: 18px;
+}
+
+/* 翻页控制 */
+.page-controls {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--paper-texture);
+    z-index: 2;
+}
+
+.control-btn {
+    padding: 10px 25px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink-color);
+    background: var(--paper-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover:not(:disabled) {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 装饰元素 */
+.decoration {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--border-color);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.corner-top-left {
+    top: 10px;
+    left: 10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner-top-right {
+    top: 10px;
+    right: 10px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.corner-bottom-left {
+    bottom: 10px;
+    left: 10px;
+    border-right: none;
+    border-top: none;
+}
+
+.corner-bottom-right {
+    bottom: 10px;
+    right: 10px;
+    border-left: none;
+    border-top: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .page-content {
+        padding: 30px 30px;
+    }
+
+    .page-header,
+    .page-footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .book-title {
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+    .paragraph {
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .decoration {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .book-container {
+        box-shadow: none;
+        max-width: none;
+    }
+
+    .page-controls {
+        display: none;
+    }
+}
