@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pretext 文本布局引擎演示</title>
+    <title>Pretext - 下一代文本布局引擎</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,134 +15,240 @@
         }
 
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #06b6d4;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --neon-blue: #00f0ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #bd00ff;
+            --neon-green: #00ff88;
+            --dark-bg: #0a0a0f;
+            --card-bg: #12121a;
+            --text-primary: #ffffff;
+            --text-secondary: #8888aa;
         }
 
         body {
-            font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
-            background: var(--bg-dark);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* 动画背景 */
-        .animated-bg {
+        /* 动态网格背景 */
+        .grid-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            overflow: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -2;
         }
 
-        .animated-bg .orb {
-            position: absolute;
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        /* 浮动光晕 */
+        .glow-orb {
+            position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: float 20s infinite ease-in-out;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: orbFloat 15s ease-in-out infinite;
+            z-index: -1;
         }
 
-        .orb-1 {
+        .glow-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--neon-purple);
+            top: -200px;
+            right: -200px;
+        }
+
+        .glow-2 {
             width: 400px;
             height: 400px;
-            background: var(--primary);
-            top: -100px;
-            left: -100px;
+            background: var(--neon-blue);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -7s;
         }
 
-        .orb-2 {
+        .glow-3 {
             width: 300px;
             height: 300px;
-            background: var(--secondary);
-            bottom: -50px;
-            right: -50px;
-            animation-delay: -5s;
-        }
-
-        .orb-3 {
-            width: 250px;
-            height: 250px;
-            background: var(--accent);
+            background: var(--neon-pink);
             top: 50%;
             left: 50%;
-            animation-delay: -10s;
+            animation-delay: -14s;
         }
 
-        @keyframes float {
+        @keyframes orbFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -50px) scale(1.1); }
-            50% { transform: translate(-30px, 30px) scale(0.9); }
-            75% { transform: translate(-50px, -30px) scale(1.05); }
+            33% { transform: translate(30%, -30%) scale(1.1); }
+            66% { transform: translate(-20%, 20%) scale(0.9); }
         }
 
-        /* 头部 */
-        header {
+        /* Hero 区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 80px 20px 40px;
+            padding: 80px 20px;
             position: relative;
         }
 
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 700;
-            background: var(--gradient-3);
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--neon-blue);
+            margin-bottom: 32px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 240, 255, 0.6); }
+        }
+
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 50%, var(--neon-pink) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 16px;
-            animation: glow 3s ease-in-out infinite;
+            animation: titleGlow 3s ease-in-out infinite;
         }
 
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(79, 172, 254, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(79, 172, 254, 0.8)); }
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 30px rgba(189, 0, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 60px rgba(0, 240, 255, 0.8)); }
         }
 
-        .subtitle {
-            font-size: 1.25rem;
+        .hero-subtitle {
+            font-size: clamp(1.25rem, 2vw, 1.5rem);
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 700px;
             line-height: 1.8;
+            margin-bottom: 48px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: white;
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0, 240, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         /* 主容器 */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 100px 20px;
         }
 
-        /* 功能卡片网格 */
+        /* Section 标题 */
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(189, 0, 255, 0.15);
+            border: 1px solid rgba(189, 0, 255, 0.4);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--neon-purple);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 功能卡片 */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 24px;
-            margin-bottom: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 120px;
         }
 
         .feature-card {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
             position: relative;
             overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .feature-card::before {
@@ -152,15 +258,15 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: var(--gradient-1);
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-12px);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
         }
 
         .feature-card:hover::before {
@@ -168,14 +274,21 @@
         }
 
         .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(189, 0, 255, 0.2));
+            border-radius: 16px;
+            font-size: 2rem;
+            margin-bottom: 24px;
         }
 
         .feature-card h3 {
             font-size: 1.5rem;
             margin-bottom: 12px;
-            background: var(--gradient-3);
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -184,81 +297,72 @@
         .feature-card p {
             color: var(--text-secondary);
             line-height: 1.7;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
-        .code-preview {
-            background: rgba(0, 0, 0, 0.3);
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 12px;
-            padding: 16px;
-            font-family: 'Monaco', 'Consolas', monospace;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
             overflow-x: auto;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .code-preview code {
-            color: #a5b4fc;
+        .code-block code {
+            color: #e0e0e0;
         }
 
-        .keyword { color: #c084fc; }
-        .string { color: #86efac; }
-        .function { color: #60a5fa; }
-        .comment { color: #64748b; }
+        .code-keyword { color: #ff79c6; }
+        .code-func { color: #8be9fd; }
+        .code-string { color: #f1fa8c; }
+        .code-comment { color: #6272a4; }
+        .code-number { color: #bd93f9; }
 
         /* 演示区域 */
         .demo-section {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 80px;
         }
 
-        .demo-section h2 {
-            font-size: 2rem;
-            margin-bottom: 24px;
-            background: var(--gradient-2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* 文本布局演示 */
-        .layout-demo {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-
-        @media (max-width: 900px) {
-            .layout-demo {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .layout-controls {
+        .demo-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .demo-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         .control-group {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .control-group label {
-            display: block;
-            margin-bottom: 8px;
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            font-size: 0.9rem;
         }
 
         .control-group input[type="range"] {
-            width: 100%;
+            width: 150px;
             height: 6px;
             border-radius: 3px;
             background: rgba(255, 255, 255, 0.1);
@@ -268,11 +372,12 @@
 
         .control-group input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
             cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
             transition: transform 0.2s;
         }
 
@@ -280,19 +385,26 @@
             transform: scale(1.2);
         }
 
-        .value-display {
-            text-align: right;
-            color: var(--accent);
-            font-weight: 700;
-            margin-top: 8px;
+        .demo-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 1000px) {
+            .demo-layout {
+                grid-template-columns: 1fr;
+            }
         }
 
         .layout-output {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            padding: 24px;
-            min-height: 300px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 32px;
+            min-height: 350px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
         }
 
         .layout-output p {
@@ -303,86 +415,187 @@
             text-align: justify;
         }
 
-        .stats-bar {
-            display: flex;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 32px;
+            padding-top: 32px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .stat-item {
+        .stat-card {
             text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
         }
 
         .stat-value {
-            font-size: 1.75rem;
-            font-weight: 700;
-            background: var(--gradient-4);
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            margin-top: 4px;
+            margin-top: 8px;
         }
 
-        /* 多语言支持演示 */
-        .language-demo {
+        /* 多语言展示 */
+        .languages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            gap: 24px;
         }
 
         .lang-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 24px;
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 32px;
             transition: all 0.3s ease;
         }
 
         .lang-card:hover {
-            border-color: var(--primary);
+            border-color: var(--neon-blue);
             transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 240, 255, 0.15);
+        }
+
+        .lang-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
         }
 
         .lang-flag {
-            font-size: 2rem;
-            margin-bottom: 12px;
+            font-size: 2.5rem;
+        }
+
+        .lang-name {
+            font-weight: 600;
+            font-size: 1.125rem;
         }
 
         .lang-text {
             font-family: 'Noto Serif SC', serif;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             line-height: 1.8;
-            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .lang-sub {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* 性能对比 */
+        .performance-section {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(189, 0, 255, 0.05));
+            border-radius: 32px;
+            padding: 60px;
+            margin-bottom: 80px;
+        }
+
+        .perf-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .perf-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .perf-card.traditional {
+            border: 1px solid rgba(255, 100, 100, 0.3);
+        }
+
+        .perf-card.pretext {
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(189, 0, 255, 0.1));
+        }
+
+        .perf-label {
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+        }
+
+        .perf-time {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .traditional .perf-time {
+            color: #ff6b6b;
+        }
+
+        .pretext .perf-time {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .perf-unit {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
         }
 
         /* 页脚 */
         footer {
             text-align: center;
-            padding: 60px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 60px;
+            padding: 80px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         footer p {
             color: var(--text-secondary);
+            margin-bottom: 24px;
         }
 
         footer a {
-            color: var(--primary);
+            color: var(--neon-blue);
             text-decoration: none;
             transition: color 0.3s;
         }
 
         footer a:hover {
-            color: var(--accent);
+            color: var(--neon-purple);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(0, 240, 255, 0.2);
+            transform: translateY(-3px);
         }
 
         /* 加载动画 */
@@ -390,190 +603,182 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 40px;
+            gap: 8px;
+            padding: 60px;
         }
 
         .loading-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: var(--primary);
-            animation: bounce 1.4s infinite ease-in-out both;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            animation: loadingBounce 1.4s infinite ease-in-out both;
         }
 
         .loading-dot:nth-child(1) { animation-delay: -0.32s; }
         .loading-dot:nth-child(2) { animation-delay: -0.16s; }
 
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
+        @keyframes loadingBounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
         }
 
-        /* 按钮 */
-        .btn {
-            display: inline-block;
-            padding: 12px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
+        /* 滚动动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
         }
 
-        .btn-primary {
-            background: var(--gradient-1);
-            color: white;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- 动画背景 -->
-    <div class="animated-bg">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- 背景效果 -->
+    <div class="grid-bg"></div>
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+    <div class="glow-orb glow-3"></div>
 
-    <!-- 头部 -->
-    <header>
-        <h1>✨ Pretext 文本布局引擎</h1>
-        <p class="subtitle">
-            纯 JavaScript/TypeScript 多语言文本测量与布局库<br>
-            快速、精准、支持所有你想得到的语言
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span>⚡</span>
+            <span>纯 JavaScript 文本布局引擎</span>
+        </div>
+        <h1>Pretext</h1>
+        <p class="hero-subtitle">
+            零 DOM 依赖 · 多语言支持 · 精准布局<br>
+            为 Canvas、SVG、WebGL 和服务端渲染而生
         </p>
-        <div class="btn-group">
-            <a href="https://github.com/chenglou/pretext" target="_blank" class="btn btn-primary">
-                🚀 GitHub 仓库
+        <div class="hero-cta">
+            <a href="#demo" class="btn btn-primary">
+                🚀 在线演示
+            </a>
+            <a href="https://github.com/chenglou/pretext" target="_blank" class="btn btn-secondary">
+                ⭐ GitHub
             </a>
         </div>
-    </header>
+    </section>
 
-    <!-- 主容器 -->
+    <!-- 功能特性 -->
     <div class="container">
-        <!-- 功能卡片 -->
+        <div class="section-header fade-in">
+            <span class="section-tag">✨ 核心特性</span>
+            <h2 class="section-title">为什么选择 Pretext？</h2>
+            <p class="section-desc">
+                突破传统文本布局的限制，为现代 Web 应用打造的高性能解决方案
+            </p>
+        </div>
+
         <div class="features-grid">
-            <div class="feature-card">
+            <div class="feature-card fade-in">
                 <div class="feature-icon">⚡</div>
                 <h3>零 DOM 依赖</h3>
                 <p>无需触发重排重绘，纯算术计算文本高度，性能提升 100 倍+</p>
-                <div class="code-preview">
+                <div class="code-block">
                     <code>
-                        <span class="keyword">const</span> prepared = <span class="function">prepare</span>(<span class="string">'文本'</span>, <span class="string">'16px Inter'</span>)<br>
-                        <span class="keyword">const</span> { height } = <span class="function">layout</span>(prepared, width, lineHeight)<br>
-                        <span class="comment">// 纯算术，无 DOM 操作！</span>
+<span class="code-keyword">const</span> prepared = <span class="code-func">prepare</span>(<span class="code-string">'文本'</span>, <span class="code-string">'16px Inter'</span>)
+<span class="code-keyword">const</span> { height } = <span class="code-func">layout</span>(prepared, width, lineHeight)
+<span class="code-comment">// 纯算术，无 DOM 操作！</span>
                     </code>
                 </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card fade-in">
                 <div class="feature-icon">🌍</div>
                 <h3>全语言支持</h3>
                 <p>中文、英文、阿拉伯语、emoji、混合双向文本，全部完美支持</p>
-                <div class="code-preview">
+                <div class="code-block">
                     <code>
-                        <span class="function">prepare</span>(<br>
-                        &nbsp;&nbsp;<span class="string">'AGI 春天到了 🌸'</span> +<br>
-                        &nbsp;&nbsp;<span class="string">'بدأت الرحلة 🚀'</span><br>
-                        )
+<span class="code-func">prepare</span>(
+  <span class="code-string">'AGI 春天到了 🌸'</span> +
+  <span class="code-string">'بدأت الرحلة 🚀'</span>
+)
                     </code>
                 </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card fade-in">
                 <div class="feature-icon">📐</div>
                 <h3>精准布局</h3>
                 <p>使用浏览器字体引擎作为基准，AI 友好的迭代测量方法</p>
-                <div class="code-preview">
+                <div class="code-block">
                     <code>
-                        <span class="comment">// prepare: ~19ms (500 文本批量)</span><br>
-                        <span class="comment">// layout: ~0.09ms (同批量)</span><br>
-                        <span class="keyword">const</span> { lines } = <span class="function">layoutWithLines</span>(...)
+<span class="code-comment">// prepare: ~19ms (500 文本批量)</span>
+<span class="code-comment">// layout: ~0.09ms (同批量)</span>
+<span class="code-keyword">const</span> { lines } = <span class="code-func">layoutWithLines</span>(...)
                     </code>
                 </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card fade-in">
                 <div class="feature-icon">🎨</div>
                 <h3>多场景渲染</h3>
                 <p>支持 DOM、Canvas、SVG、WebGL，甚至服务端渲染</p>
-                <div class="code-preview">
+                <div class="code-block">
                     <code>
-                        <span class="keyword">for</span> (line <span class="keyword">of</span> lines) {<br>
-                        &nbsp;&nbsp;ctx.<span class="function">fillText</span>(line.text, 0, y)<br>
-                        &nbsp;&nbsp;y += lineHeight<br>
-                        }
+<span class="code-keyword">for</span> (line <span class="code-keyword">of</span> lines) {
+  ctx.<span class="code-func">fillText</span>(line.text, <span class="code-number">0</span>, y)
+  y += lineHeight
+}
                     </code>
                 </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card fade-in">
                 <div class="feature-icon">📱</div>
                 <h3>响应式布局</h3>
                 <p>动态计算容器宽度，自动换行，完美适配各种屏幕</p>
-                <div class="code-preview">
+                <div class="code-block">
                     <code>
-                        window.<span class="function">addEventListener</span>(<span class="string">'resize'</span>, () => {<br>
-                        &nbsp;&nbsp;<span class="function">layout</span>(prepared, newWidth, lineHeight)<br>
-                        })
+window.<span class="code-func">addEventListener</span>(<span class="code-string">'resize'</span>, () => {
+  <span class="code-func">layout</span>(prepared, newWidth, lineHeight)
+})
                     </code>
                 </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card fade-in">
                 <div class="feature-icon">🔍</div>
                 <h3>高级 API</h3>
                 <p>walkLineRanges、layoutNextLine 等高级功能，满足复杂需求</p>
-                <div class="code-preview">
+                <div class="code-block">
                     <code>
-                        <span class="function">walkLineRanges</span>(prepared, width,<br>
-                        &nbsp;line => {<br>
-                        &nbsp;&nbsp;<span class="keyword">if</span> (line.width > maxW)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;maxW = line.width<br>
-                        &nbsp;})
+<span class="code-func">walkLineRanges</span>(prepared, width,
+  line => {
+    <span class="code-keyword">if</span> (line.width > maxW)
+      maxW = line.width
+  })
                     </code>
                 </div>
             </div>
         </div>
 
-        <!-- 实时布局演示 -->
-        <div class="demo-section">
-            <h2>🎯 实时文本布局演示</h2>
-            <div class="layout-demo">
-                <div class="layout-controls">
+        <!-- 实时演示 -->
+        <div class="demo-section fade-in" id="demo">
+            <div class="demo-header">
+                <h2 class="demo-title">🎯 实时布局演示</h2>
+                <div class="demo-controls">
                     <div class="control-group">
-                        <label>容器宽度</label>
+                        <label>宽度：<span id="width-val">400</span>px</label>
                         <input type="range" id="width-slider" min="200" max="600" value="400">
-                        <div class="value-display"><span id="width-value">400</span>px</div>
                     </div>
                     <div class="control-group">
-                        <label>字体大小</label>
+                        <label>字号：<span id="font-val">18</span>px</label>
                         <input type="range" id="font-slider" min="12" max="32" value="18">
-                        <div class="value-display"><span id="font-value">18</span>px</div>
                     </div>
                     <div class="control-group">
-                        <label>行高</label>
-                        <input type="range" id="lineheight-slider" min="1" max="3" step="0.1" value="2">
-                        <div class="value-display"><span id="lineheight-value">2.0</span></div>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn btn-primary" onclick="updateLayout()">🔄 重新计算</button>
+                        <label>行高：<span id="lh-val">2.0</span></label>
+                        <input type="range" id="lh-slider" min="1" max="3" step="0.1" value="2">
                     </div>
                 </div>
+            </div>
+
+            <div class="demo-layout">
                 <div class="layout-output" id="layout-output">
                     <div class="loading">
                         <div class="loading-dot"></div>
@@ -581,72 +786,108 @@
                         <div class="loading-dot"></div>
                     </div>
                 </div>
-            </div>
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-height">0</div>
-                    <div class="stat-label">总高度 (px)</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-lines">0</div>
-                    <div class="stat-label">行数</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="stat-time">0</div>
-                    <div class="stat-label">计算时间 (ms)</div>
+                <div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-height">0</div>
+                            <div class="stat-label">总高度 (px)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-lines">0</div>
+                            <div class="stat-label">行数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-time">0</div>
+                            <div class="stat-label">计算时间 (ms)</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 32px;">
+                        <p style="color: var(--text-secondary); line-height: 1.8;">
+                            拖动滑块调整参数，Pretext 会实时计算文本布局。<br>
+                            注意看计算时间——几乎为零！
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 多语言演示 -->
-        <div class="demo-section">
-            <h2>🌏 多语言支持演示</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 20px;">
-                Pretext 支持全球所有语言，包括复杂的双向文本（如阿拉伯语）和 emoji
+        <!-- 性能对比 -->
+        <div class="performance-section fade-in">
+            <div class="section-header" style="margin-bottom: 40px;">
+                <span class="section-tag">🚀 性能对比</span>
+                <h2 class="section-title">快如闪电</h2>
+            </div>
+            <div class="perf-comparison">
+                <div class="perf-card traditional">
+                    <div class="perf-label">传统 DOM 测量</div>
+                    <div class="perf-time">~500</div>
+                    <div class="perf-unit">ms / 1000 段落</div>
+                </div>
+                <div class="perf-card pretext">
+                    <div class="perf-label">Pretext</div>
+                    <div class="perf-time">~5</div>
+                    <div class="perf-unit">ms / 1000 段落</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 多语言支持 -->
+        <div class="section-header fade-in">
+            <span class="section-tag">🌏 多语言支持</span>
+            <h2 class="section-title">全球语言，一网打尽</h2>
+            <p class="section-desc">
+                从左到右、从右到左、混合文本、emoji，Pretext 都能完美处理
             </p>
-            <div class="language-demo">
-                <div class="lang-card">
-                    <div class="lang-flag">🇨🇳</div>
-                    <div class="lang-text">春夜宴桃李园序 · 李白</div>
-                    <div class="lang-text" style="margin-top: 12px; font-size: 0.95rem; color: var(--text-secondary);">
-                        夫天地者，万物之逆旅也；光阴者，百代之过客也。
-                    </div>
+        </div>
+
+        <div class="languages-grid fade-in">
+            <div class="lang-card">
+                <div class="lang-header">
+                    <span class="lang-flag">🇨🇳</span>
+                    <span class="lang-name">中文</span>
                 </div>
-                <div class="lang-card">
-                    <div class="lang-flag">🇺🇸</div>
-                    <div class="lang-text">The quick brown fox</div>
-                    <div class="lang-text" style="margin-top: 12px; font-size: 0.95rem; color: var(--text-secondary);">
-                        jumps over the lazy dog.
-                    </div>
+                <div class="lang-text">春夜宴桃李园序</div>
+                <div class="lang-sub">夫天地者，万物之逆旅也</div>
+            </div>
+            <div class="lang-card">
+                <div class="lang-header">
+                    <span class="lang-flag">🇺🇸</span>
+                    <span class="lang-name">English</span>
                 </div>
-                <div class="lang-card">
-                    <div class="lang-flag">🇸🇦</div>
-                    <div class="lang-text" style="direction: rtl;">بدأت الرحلة</div>
-                    <div class="lang-text" style="margin-top: 12px; font-size: 0.95rem; color: var(--text-secondary); direction: rtl;">
-                        🚀 أهلاً وسهلاً
-                    </div>
+                <div class="lang-text">The quick brown fox</div>
+                <div class="lang-sub">jumps over the lazy dog</div>
+            </div>
+            <div class="lang-card">
+                <div class="lang-header">
+                    <span class="lang-flag">🇸🇦</span>
+                    <span class="lang-name">العربية</span>
                 </div>
-                <div class="lang-card">
-                    <div class="lang-flag">🇯🇵</div>
-                    <div class="lang-text">春の夜、桃李の園</div>
-                    <div class="lang-text" style="margin-top: 12px; font-size: 0.95rem; color: var(--text-secondary);">
-                        宴を楽しむ 🌸
-                    </div>
+                <div class="lang-text" style="direction: rtl;">بدأت الرحلة</div>
+                <div class="lang-sub" style="direction: rtl;">أهلاً وسهلاً 🚀</div>
+            </div>
+            <div class="lang-card">
+                <div class="lang-header">
+                    <span class="lang-flag">🇯🇵</span>
+                    <span class="lang-name">日本語</span>
                 </div>
-                <div class="lang-card">
-                    <div class="lang-flag">🇰🇷</div>
-                    <div class="lang-text">봄밤의 향연</div>
-                    <div class="lang-text" style="margin-top: 12px; font-size: 0.95rem; color: var(--text-secondary);">
-                        복숭아와 오얏 꽃 🌺
-                    </div>
+                <div class="lang-text">春の夜、桃李の園</div>
+                <div class="lang-sub">宴を楽しむ 🌸</div>
+            </div>
+            <div class="lang-card">
+                <div class="lang-header">
+                    <span class="lang-flag">🇰🇷</span>
+                    <span class="lang-name">한국어</span>
                 </div>
-                <div class="lang-card">
-                    <div class="lang-flag">🌐</div>
-                    <div class="lang-text">Mixed 混合 🎉</div>
-                    <div class="lang-text" style="margin-top: 12px; font-size: 0.95rem; color: var(--text-secondary);">
-                        مرحبا 你好 Hello!
-                    </div>
+                <div class="lang-text">봄밤의 향연</div>
+                <div class="lang-sub">복숭아와 오얏 꽃 🌺</div>
+            </div>
+            <div class="lang-card">
+                <div class="lang-header">
+                    <span class="lang-flag">🌐</span>
+                    <span class="lang-name">Mixed</span>
                 </div>
+                <div class="lang-text">Mixed 混合 🎉</div>
+                <div class="lang-sub">مرحبا 你好 Hello!</div>
             </div>
         </div>
     </div>
@@ -654,16 +895,20 @@
     <!-- 页脚 -->
     <footer>
         <p>
-            Made with ❤️ using <a href="https://github.com/chenglou/pretext" target="_blank">Pretext</a><br>
-            <a href="https://github.com/nodiff-229/pretext-book-page" target="_blank">查看源码</a>
+            Made with ❤️ using <a href="https://github.com/chenglou/pretext" target="_blank">Pretext</a>
         </p>
+        <div class="social-links">
+            <a href="https://github.com/chenglou/pretext" target="_blank" class="social-link">📦</a>
+            <a href="https://github.com/nodiff-229/pretext-book-page" target="_blank" class="social-link">⭐</a>
+            <a href="https://clawhub.ai" target="_blank" class="social-link">🤖</a>
+        </div>
     </footer>
 
     <script type="module">
         import { prepare, layout } from 'https://cdn.jsdelivr.net/npm/@chenglou/pretext@0.0.3/+esm';
 
-        // 示例文本
-        const sampleText = `夫天地者，万物之逆旅也；光阴者，百代之过客也。而浮生若梦，为欢几何？古人秉烛夜游，良有以也。况阳春召我以烟景，大块假我以文章。会桃李之芳园，序天伦之乐事。`;
+        // 示例文本 - 李白《春夜宴桃李园序》
+        const sampleText = `夫天地者，万物之逆旅也；光阴者，百代之过客也。而浮生若梦，为欢几何？古人秉烛夜游，良有以也。况阳春召我以烟景，大块假我以文章。会桃李之芳园，序天伦之乐事。群季俊秀，皆为惠连；吾人咏歌，独惭康乐。`;
 
         // 状态
         let state = {
@@ -705,18 +950,32 @@
         // 绑定滑块事件
         document.getElementById('width-slider').addEventListener('input', (e) => {
             state.width = parseInt(e.target.value);
-            document.getElementById('width-value').textContent = state.width;
+            document.getElementById('width-val').textContent = state.width;
+            window.updateLayout();
         });
 
         document.getElementById('font-slider').addEventListener('input', (e) => {
             state.fontSize = parseInt(e.target.value);
-            document.getElementById('font-value').textContent = state.fontSize;
+            document.getElementById('font-val').textContent = state.fontSize;
+            window.updateLayout();
         });
 
-        document.getElementById('lineheight-slider').addEventListener('input', (e) => {
+        document.getElementById('lh-slider').addEventListener('input', (e) => {
             state.lineHeight = parseFloat(e.target.value);
-            document.getElementById('lineheight-value').textContent = state.lineHeight.toFixed(1);
+            document.getElementById('lh-val').textContent = state.lineHeight.toFixed(1);
+            window.updateLayout();
         });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
         // 初始化
         setTimeout(() => {
